@@ -1,26 +1,22 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.css";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
+import MyPokedex from "./pages/MyPokemon/MyPokedex";
+import Pokedex from "./pages/Pokedex/Pokedex";
+import Navigation from "./components/navigations/navigation";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <div>
+            <BrowserRouter>
+                <Navigation />
+                <Switch>
+                    <Route path="/pokemon" component={MyPokedex} />
+                    <Route path="/pokedex" component={Pokedex} />
+                </Switch>
+            </BrowserRouter>
+        </div>
+    );
 }
 
 export default App;
