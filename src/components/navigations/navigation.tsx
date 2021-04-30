@@ -45,15 +45,12 @@ const Navigation = (props: any) => {
                 </nav>{" "}
             </nav>
 
-
-            <nav className="navbar navbar-expand-md navbar-light d-block d-lg-none sticky-top" role="navigation">
-                <nav className="navbar navbar-expand-md navbar-light sticky-top" role="navigation">
-                    <div className="container-fluid">
-                        <a className="navbar-brand" href="/pokemon">
-                            <img className="nav-icon" src={pokeball} alt="" />
-                        </a>
-                    </div>
-                </nav>{" "}
+            <nav className="navbar fixed-top navbar-light d-block d-lg-none bg-light" role="navigation">
+                <div className="container">
+                    <a className="navbar-brand" href="/pokemon">
+                        <img className="nav-icon" src={pokeball} alt="" />
+                    </a>
+                </div>
             </nav>
 
             {/* Bottom Tab Navigator*/}
