@@ -1,0 +1,34 @@
+.pokemon-types {
+    background-color: #c6c6c6;
+    opacity: 0.6;
+    color: white;
+    padding: 4px 7px;
+}
+
+.pokemon-name {
+    display: inline-block;
+    margin-bottom: 0.5rem;
+    font-size: 20px;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.pokemon-image {
+    width: 90px !important;
+    height: 90px;
+    position: absolute;
+    top: 70px;
+    right: 10px;
+}
+
+.card {
+    min-height: 180px;
+}
+
+.card-body {
+    width: 100%;
+    min-height: 168px;
+    border-radius: 10px;
+    background: mediumseagreen;
+    color: white;
+}
