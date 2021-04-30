@@ -1,5 +1,5 @@
 import React from "react";
-import { Nav, NavItem } from "reactstrap";
+import { Nav, NavItem } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import "./navigation.css";
 import pikachu from "./../../assets/icon/pikachu.png";
@@ -41,6 +41,17 @@ const Navigation = (props: any) => {
                                 </NavLink>
                             </NavItem>
                         </Nav>
+                    </div>
+                </nav>{" "}
+            </nav>
+
+
+            <nav className="navbar navbar-expand-md navbar-light d-block d-lg-none sticky-top" role="navigation">
+                <nav className="navbar navbar-expand-md navbar-light sticky-top" role="navigation">
+                    <div className="container-fluid">
+                        <a className="navbar-brand" href="/pokemon">
+                            <img className="nav-icon" src={pokeball} alt="" />
+                        </a>
                     </div>
                 </nav>{" "}
             </nav>
