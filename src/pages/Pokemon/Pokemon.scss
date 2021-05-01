@@ -5,6 +5,23 @@
     padding: 4px 7px;
 }
 
+.pokemon-card {
+    width: 11rem;
+    margin-bottom: 8px;
+
+    .card {
+        min-height: 180px;
+    }
+
+    .card-body {
+        width: 100%;
+        min-height: 168px;
+        border-radius: 10px;
+        background: mediumseagreen;
+        color: white;
+    }
+}
+
 .pokemon-name {
     display: inline-block;
     margin-bottom: 0.5rem;
@@ -19,16 +36,4 @@
     position: absolute;
     top: 70px;
     right: 10px;
-}
-
-.card {
-    min-height: 180px;
-}
-
-.card-body {
-    width: 100%;
-    min-height: 168px;
-    border-radius: 10px;
-    background: mediumseagreen;
-    color: white;
 }

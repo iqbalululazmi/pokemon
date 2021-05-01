@@ -1,0 +1,40 @@
+.poke-modal-detail {
+    .modal-dialog {
+        display: flex;
+        min-height: calc(90% - 10%) !important;
+        bottom: 0 !important;
+        position: absolute !important;
+        margin: unset !important;
+        border-radius: 200px !important;
+        width: 100% !important;
+
+        .modal-content {
+            border-top-left-radius: 35px !important;
+            border-top-right-radius: 35px !important;
+
+            .modal-header {
+                text-transform: capitalize;
+            }
+        }
+    }
+}
+
+.poke-detail-img {
+    width: 160px;
+    height: 160px;
+    position: absolute;
+    top: -180px;
+    margin: auto;
+    left: 0;
+    right: 0;
+}
+
+.poke-detail-tab {
+    .nav-link.active {
+        border-bottom: 2px solid green !important;
+    }
+}
+.poke-detail-card {
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    margin-top: 20px;
+}

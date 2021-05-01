@@ -4,7 +4,7 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Pokedex from "./pages/Pokedex/Pokedex";
 import Navigation from "./components/navigations/navigation";
 import Pokemon from "./pages/Pokemon/Pokemon";
-import PokemonDetail from "./pages/Pokemon/PokemonDetail";
+import PokemonDetail from "./pages/Pokemon/PokemonDetailModal/PokemonDetail";
 
 function App() {
     return (
