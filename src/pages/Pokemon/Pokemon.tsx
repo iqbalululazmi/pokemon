@@ -78,6 +78,9 @@ const Pokemon = () => {
                 setPokemons(pokemons.concat(res.data.pokemons.results));
                 setPokemonsTwoColumns(twoArrayColumn(pokemons));
                 setPagination({ offset: pagination.offset + 8, limit: pagination.limit });
+                if (res.data.pokemons.count === pokemons.length) {
+                    setHasMore(false);
+                }
                 setShowSpinner(false);
             })
             .catch((e) => {
@@ -90,7 +93,7 @@ const Pokemon = () => {
             dataLength={pokemons.length}
             next={() => fetchMoreData()}
             hasMore={hasMore}
-            loader={<Loader type="ThreeDots" color="#2BAD60" height="100" width="100" />}
+            loader={<></>}
             endMessage={
                 <p style={{ textAlign: "center" }}>
                     <b>Yay! You have seen it all</b>

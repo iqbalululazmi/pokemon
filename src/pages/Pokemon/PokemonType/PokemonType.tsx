@@ -13,8 +13,8 @@ const PokemonType = (props: PokemonTypeInterface) => {
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error :(</p>;
 
-    return data.pokemon.types.map((pokemonType: any) => (
-        <Container style={{ marginTop: "5px" }}>
+    return data.pokemon.types.map((pokemonType: any, index: number) => (
+        <Container key={index} style={{ marginTop: "5px" }}>
             <Row>
                 <span className="badge badge-pill pokemon-types">{pokemonType.type.name}</span>
             </Row>

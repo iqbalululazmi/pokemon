@@ -1,5 +1,6 @@
 import React from "react";
 import "./App.css";
+import "react-toastify/dist/ReactToastify.css";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import Pokedex from "./pages/Pokedex/Pokedex";
 import Navigation from "./components/navigations/navigation";
