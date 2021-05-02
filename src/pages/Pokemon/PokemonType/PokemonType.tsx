@@ -13,8 +13,6 @@ const PokemonType = (props: PokemonTypeInterface) => {
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error :(</p>;
 
-    console.log(data);
-
     return data.pokemon.types.map((pokemonType: any) => (
         <Container style={{ marginTop: "5px" }}>
             <Row>

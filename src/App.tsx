@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import Pokedex from "./pages/Pokedex/Pokedex";
 import Navigation from "./components/navigations/navigation";
 import Pokemon from "./pages/Pokemon/Pokemon";
@@ -12,6 +12,9 @@ function App() {
             <BrowserRouter>
                 <Navigation />
                 <Switch>
+                    <Route exact path="/">
+                        <Redirect to="/pokemon" />
+                    </Route>
                     <Route path="/pokemon" component={Pokemon} />
                     <Route path="/pokedex" component={Pokedex} />
                     <Route path="/pokedex-detail" component={PokemonDetail} />
