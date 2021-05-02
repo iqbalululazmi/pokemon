@@ -2,13 +2,13 @@ import React from "react";
 import { Card, Col, Container, Row } from "react-bootstrap";
 import { useQuery } from "@apollo/client";
 import "./Pokemon.scss";
-import PokemonDetail from "./PokemonDetailModal/PokemonDetail";
 import { QUERY_POKEMONS } from "../../adapters/queries/pokemon.query";
 import PokemonType from "./PokemonType/PokemonType";
 import { PokemonInteface } from "../../interfaces/pokemon.interface";
 import Loader from "react-loader-spinner";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { PaginationInterface } from "../../interfaces/pagination.interface";
+import PokemonDetailModal from "./PokemonDetailModal/PokemonDetail";
 
 const twoArrayColumn = (pokemons: any[]) => {
     const results: any = [];
@@ -127,7 +127,7 @@ const Pokemon = () => {
                     </div>
                 )}
 
-                <PokemonDetail pokemon={selectedPokemon} show={modalShow} onHide={() => setModalShow(false)} />
+                {modalShow && <PokemonDetailModal pokemon={selectedPokemon} show={modalShow} onHide={() => setModalShow(false)} />}
             </Container>
         </InfiniteScroll>
     );

@@ -9,8 +9,13 @@ import { ToastContainer } from "react-toastify";
 import { randomNameGenerator } from "../../../common/generator";
 import { toastTemplate } from "../../../common/toast";
 
+const PokemonDetailContext = React.createContext<any>({});
+export const PokemonDetailProvider = PokemonDetailContext.Provider;
+
 function PokemonDetailCard(props: any) {
     const [key, setKey] = React.useState<null | string>("about");
+    const useDetailContext = React.useContext(PokemonDetailContext);
+
     const { loading, error, data } = useQuery(QUERY_POKEMON_DETAIL, {
         variables: {
             name: props.pokemon.name,
@@ -23,7 +28,15 @@ function PokemonDetailCard(props: any) {
                 <Loader type="ThreeDots" color="#2BAD60" height="100" width="100" />;
             </div>
         );
+
     if (error) return <p>Error :(</p>;
+
+    console.log(data);
+
+    if (Object.keys(data.pokemon).length > 0) {
+        useDetailContext.getFromChild(data.pokemon);
+    }
+
     const { pokemon } = data;
     const { abilities, sprites, stats } = pokemon;
 
@@ -127,27 +140,39 @@ function PokemonDetailCard(props: any) {
 }
 
 const PokemonDetailModal = (props: PokemonDetailInteface) => {
+    const [pokemonDetail, setPokemonDetail] = React.useState<any>({});
     const caughtFailure = () => toastTemplate({ message: "Oh no 😭, pokemon failed to catch", type: "error" });
-    const caughtSuccess = () => toastTemplate({ message: "Gotcha, the pokemon has been registered in the Pokédex", type: "success" });
-   
+    const caughtSuccess = () => toastTemplate({ message: "Gotcha 😎, the pokemon has been registered in the Pokédex", type: "success" });
+    const pokemon = props.pokemon;
+
+    const getFromChild = (value: any) => {
+        setPokemonDetail(value);
+    };
+
     const caught = () => {
         const chance = Math.random() * 100;
         if (chance <= 50) {
-            const nickname = props.pokemon.name + "-" + randomNameGenerator();
+            const nickname = pokemonDetail.name + "-" + randomNameGenerator();
             const pokedexStorage = localStorage.getItem("pokedex");
             let pokedex: any = [];
             if (pokedexStorage === null) {
-                pokedex = [{ ...props.pokemon, nickname }];
+                pokedex = [{ ...pokemonDetail, nickname, image: props.pokemon.image }];
             } else {
                 pokedex = JSON.parse(pokedexStorage);
-                pokedex = [...pokedex, { ...props.pokemon, nickname }];
+                pokedex = [...pokedex, { ...pokemonDetail, nickname, image: props.pokemon.image }];
             }
             localStorage.setItem("pokedex", JSON.stringify(pokedex));
             caughtSuccess();
         } else {
             caughtFailure();
         }
-    }
+    };
+
+    React.useEffect(() => {
+        if (Object.keys(pokemonDetail).length === 0) {
+            setPokemonDetail(props.pokemon);
+        }
+    }, [props.pokemon, pokemonDetail]);
 
     return (
         <>
@@ -157,7 +182,9 @@ const PokemonDetailModal = (props: PokemonDetailInteface) => {
                     <Modal.Title id="contained-modal-title-vcenter">{props.pokemon.name}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <PokemonDetailCard pokemon={props.pokemon} />
+                    <PokemonDetailProvider value={{ pokemon, getFromChild }}>
+                        <PokemonDetailCard pokemon={props.pokemon} />
+                    </PokemonDetailProvider>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="primary" block onClick={() => caught()}>
