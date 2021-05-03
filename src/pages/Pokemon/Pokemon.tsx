@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Col, Container, Row } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
 import { useQuery } from "@apollo/client";
 import "./Pokemon.scss";
 import { QUERY_POKEMONS } from "../../adapters/queries/pokemon.query";
@@ -106,14 +106,8 @@ const Pokemon = () => {
                         <Row style={{ placeContent: "center" }}>
                             {datarow.rows.map((pokemon: PokemonInteface, indexPokemon: number) => (
                                 <div key={indexPokemon}>
-                                    <Col sm={2} style={{ padding: "5px" }}>
-                                        <Card className="pokemon-card" onClick={() => openModal(indexRow, indexPokemon)}>
-                                            <Card.Body>
-                                                <label className="pokemon-name">{pokemon.name}</label>
-                                                <PokemonType name={pokemon.name} />
-                                                <Card.Img className="pokemon-image" variant="top" src={pokemon.image} />
-                                            </Card.Body>
-                                        </Card>
+                                    <Col sm={2} style={{ padding: "5px" }} onClick={() => openModal(indexRow, indexPokemon)}>
+                                        <PokemonType pokemon={pokemon} />
                                     </Col>
                                 </div>
                             ))}

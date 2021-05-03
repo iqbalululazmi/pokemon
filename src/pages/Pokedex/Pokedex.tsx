@@ -1,4 +1,4 @@
-import { Avatar, createStyles, makeStyles, Theme } from "@material-ui/core";
+import { Avatar, Container, createStyles, makeStyles, Theme } from "@material-ui/core";
 import React from "react";
 import { Col, ListGroup, Row } from "react-bootstrap";
 
@@ -30,6 +30,7 @@ const Pokedex = () => {
         const pokedex = JSON.parse(strPokedex);
         return (
             <>
+            <Container>
                 <ListGroup>
                     {pokedex.map((poke: any, index: number) => (
                         <ListGroup.Item key={index} style={{ textTransform: "capitalize" }}>
@@ -45,6 +46,7 @@ const Pokedex = () => {
                         </ListGroup.Item>
                     ))}
                 </ListGroup>
+            </Container>
             </>
         );
     }

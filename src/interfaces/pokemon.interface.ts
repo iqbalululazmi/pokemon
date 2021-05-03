@@ -1,5 +1,5 @@
 export interface PokemonTypeInterface {
-    name: string;
+    pokemon: any;
 }
 
 export interface PokemonDetailInteface {
