@@ -9,15 +9,16 @@ import Loader from "react-loader-spinner";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { PaginationInterface } from "../../interfaces/pagination.interface";
 import PokemonDetailModal from "./PokemonDetailModal/PokemonDetail";
-import { toastTemplate } from "../../common/toast";
+import { toastRegisterSuccess } from "../../common/toast";
 import { ToastContainer } from "react-toastify";
+import useWindowDimensions from "../../common/general";
 
 export const PokemonContext = React.createContext<any>({});
 export const PokemonProvider = PokemonContext.Provider;
 
 const Pokemon = () => {
     const [modalShow, setModalShow] = React.useState(false);
-    const [selectedPokemon, setSelectedPokemon] = React.useState<PokemonInteface>({ image: "", name: "" });
+    const [selectedPokemon, setSelectedPokemon] = React.useState<PokemonInteface>({ image: "", name: "", id: 0 });
     const [hasMore, setHasMore] = React.useState<boolean>(true);
     const [showSpinner, setShowSpinner] = React.useState<boolean>(false);
     const [pokemons, setPokemons] = React.useState<any[]>([]);
@@ -25,13 +26,28 @@ const Pokemon = () => {
         limit: 8,
         offset: 9,
     });
-    const caughtSuccess = () => toastTemplate({ message: "Mantap 😎, the pokemon on your Pokédex", type: "success" });
+    const { width } = useWindowDimensions();
 
-    const { loading, error, data, fetchMore } = useQuery(QUERY_POKEMONS, {
-        variables: {
+    let variables = {};
+    if (width < 540) {
+        variables = {
             limit: 8,
             offset: 0,
-        },
+        };
+    } else if (width < 990) {
+        variables = {
+            limit: 12,
+            offset: 0,
+        };
+    } else {
+        variables = {
+            limit: 18,
+            offset: 0,
+        };
+    }
+
+    const { loading, error, data, fetchMore } = useQuery(QUERY_POKEMONS, {
+        variables,
     });
 
     if (loading)
@@ -53,7 +69,10 @@ const Pokemon = () => {
 
     const hideModal = () => {
         setModalShow(false);
-        caughtSuccess();
+    };
+    const caughtSuccess = () => {
+        setModalShow(false);
+        toastRegisterSuccess();
     };
 
     function fetchMoreData() {
@@ -106,8 +125,13 @@ const Pokemon = () => {
                     )}
 
                     {modalShow && (
-                        <PokemonProvider value={{ hideModal }}>
-                            <PokemonDetailModal pokemon={selectedPokemon} show={modalShow} onHide={() => setModalShow(false)} />
+                        <PokemonProvider value={{ hideModal, caughtSuccess }}>
+                            <PokemonDetailModal
+                                fromPage={"pokemons"}
+                                pokemon={selectedPokemon}
+                                show={modalShow}
+                                onHide={() => setModalShow(false)}
+                            />
                         </PokemonProvider>
                     )}
                 </Container>

@@ -2,6 +2,8 @@ import { Avatar, Container, createStyles, makeStyles, Theme } from "@material-ui
 import React from "react";
 import { Col, ListGroup, Row } from "react-bootstrap";
 import PokemonDetailModal from "../Pokemon/PokemonDetailModal/PokemonDetail";
+import emptyImage from "../../assets/undraw_not_found_60pq.svg";
+import "./Pokedex.scss";
 
 export const PokedexContext = React.createContext<any>({});
 export const PokedexProvider = PokedexContext.Provider;
@@ -27,13 +29,12 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const Pokedex = () => {
     const classes = useStyles();
-    const strPokedex = localStorage.getItem("pokedex");
+    const tempPokedex = localStorage.getItem("pokedex");
     const [modalShow, setModalShow] = React.useState(false);
     const [selectedPokemon, setSelectedPokemon] = React.useState<any>({});
 
     const hideModal = () => {
         setModalShow(false);
-        // caughtSuccess();
     };
 
     function openModal(pokemon: any) {
@@ -41,10 +42,19 @@ const Pokedex = () => {
         setSelectedPokemon(pokemon);
     }
 
-    if (strPokedex === null) {
-        return <p>Record not found</p>;
+    console.log(typeof tempPokedex);
+
+    if (tempPokedex === null || tempPokedex === "[]") {
+        return (
+            <Container>
+                <div className="not-record">
+                    <img src={emptyImage} alt="" />
+                    <p>Record not found</p>
+                </div>
+            </Container>
+        );
     } else {
-        const pokedex = JSON.parse(strPokedex);
+        const pokedex = JSON.parse(tempPokedex);
         return (
             <>
                 <Container style={{ marginTop: "40px" }}>
@@ -65,7 +75,12 @@ const Pokedex = () => {
                     </ListGroup>
                     {modalShow && (
                         <PokedexProvider value={{ hideModal }}>
-                            <PokemonDetailModal pokemon={selectedPokemon} show={modalShow} onHide={() => setModalShow(false)} />
+                            <PokemonDetailModal
+                                fromPage={"pokedex"}
+                                pokemon={selectedPokemon}
+                                show={modalShow}
+                                onHide={() => setModalShow(false)}
+                            />
                         </PokedexProvider>
                     )}
                 </Container>
