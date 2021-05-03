@@ -8,13 +8,11 @@ import { PokemonInteface } from "../../interfaces/pokemon.interface";
 import Loader from "react-loader-spinner";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { PaginationInterface } from "../../interfaces/pagination.interface";
-import PokemonDetailModal from "./PokemonDetailModal/PokemonDetail";
+import PokemonDetailModal from "./PokemonDetailModal/PokemonDetailModal";
 import { toastRegisterSuccess } from "../../common/toast";
 import { ToastContainer } from "react-toastify";
 import useWindowDimensions from "../../common/general";
-
-export const PokemonContext = React.createContext<any>({});
-export const PokemonProvider = PokemonContext.Provider;
+import { PokemonProvider } from "../../contexts/pokemon.context";
 
 const Pokemon = () => {
     const [modalShow, setModalShow] = React.useState(false);

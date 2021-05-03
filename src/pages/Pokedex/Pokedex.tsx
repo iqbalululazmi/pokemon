@@ -1,12 +1,10 @@
 import { Avatar, Container, createStyles, makeStyles, Theme } from "@material-ui/core";
 import React from "react";
 import { Col, ListGroup, Row } from "react-bootstrap";
-import PokemonDetailModal from "../Pokemon/PokemonDetailModal/PokemonDetail";
+import PokemonDetailModal from "../Pokemon/PokemonDetailModal/PokemonDetailModal";
 import emptyImage from "../../assets/undraw_not_found_60pq.svg";
 import "./Pokedex.scss";
-
-export const PokedexContext = React.createContext<any>({});
-export const PokedexProvider = PokedexContext.Provider;
+import { PokedexProvider } from "../../contexts/pokedex.context";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({

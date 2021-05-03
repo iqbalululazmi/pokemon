@@ -2,7 +2,7 @@ import React from "react";
 import { Button, Col, Row, Container } from "react-bootstrap";
 import Loader from "react-loader-spinner";
 import { toastNicknameNotAvailable } from "../../common/toast";
-import { PokemonContext } from "./Pokemon";
+import { PokemonContext } from "../../contexts/pokemon.context";
 
 export const CatchForm = (props: any) => {
     const usePokemonContext = React.useContext(PokemonContext);
