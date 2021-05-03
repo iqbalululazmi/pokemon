@@ -9,39 +9,23 @@ import Loader from "react-loader-spinner";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { PaginationInterface } from "../../interfaces/pagination.interface";
 import PokemonDetailModal from "./PokemonDetailModal/PokemonDetail";
+import { toastTemplate } from "../../common/toast";
+import { ToastContainer } from "react-toastify";
 
-const twoArrayColumn = (pokemons: any[]) => {
-    const results: any = [];
-    if (pokemons.length > 0) {
-        let indexSliceByRow = 0;
-        let indexRow = -1;
-        for (let i = 0; i < pokemons.length; i++) {
-            if (i === indexSliceByRow) {
-                indexSliceByRow += 2;
-                results.push({
-                    type: "row",
-                    rows: [],
-                });
-                indexRow += 1;
-            }
-            results[indexRow].rows.push({ ...pokemons[i], showModal: false });
-        }
-    }
-
-    return results;
-};
+export const PokemonContext = React.createContext<any>({});
+export const PokemonProvider = PokemonContext.Provider;
 
 const Pokemon = () => {
     const [modalShow, setModalShow] = React.useState(false);
     const [selectedPokemon, setSelectedPokemon] = React.useState<PokemonInteface>({ image: "", name: "" });
     const [hasMore, setHasMore] = React.useState<boolean>(true);
     const [showSpinner, setShowSpinner] = React.useState<boolean>(false);
-    const [pokemonsTwoColumns, setPokemonsTwoColumns] = React.useState<any[]>([]);
     const [pokemons, setPokemons] = React.useState<any[]>([]);
     const [pagination, setPagination] = React.useState<PaginationInterface>({
         limit: 8,
         offset: 9,
     });
+    const caughtSuccess = () => toastTemplate({ message: "Mantap 😎, the pokemon on your Pokédex", type: "success" });
 
     const { loading, error, data, fetchMore } = useQuery(QUERY_POKEMONS, {
         variables: {
@@ -62,21 +46,21 @@ const Pokemon = () => {
         setPokemons((pokemons) => [...pokemons, ...data.pokemons.results]);
     }
 
-    if (pokemonsTwoColumns.length === 0) {
-        setPokemonsTwoColumns((pokemonsTwoColumns) => [...pokemonsTwoColumns, ...twoArrayColumn(pokemons)]);
+    function openModal(pokemon: any) {
+        setModalShow(true);
+        setSelectedPokemon(pokemon);
     }
 
-    function openModal(indexRow: number, indexPoke: number) {
-        setSelectedPokemon(pokemonsTwoColumns[indexRow].rows[indexPoke]);
-        setModalShow(true);
-    }
+    const hideModal = () => {
+        setModalShow(false);
+        caughtSuccess();
+    };
 
     function fetchMoreData() {
         setShowSpinner(true);
         fetchMore({ variables: { limit: pagination.limit, offset: pagination.offset } })
             .then((res: any) => {
                 setPokemons(pokemons.concat(res.data.pokemons.results));
-                setPokemonsTwoColumns(twoArrayColumn(pokemons));
                 setPagination({ offset: pagination.offset + 8, limit: pagination.limit });
                 if (res.data.pokemons.count === pokemons.length) {
                     setHasMore(false);
@@ -89,41 +73,46 @@ const Pokemon = () => {
     }
 
     return (
-        <InfiniteScroll
-            dataLength={pokemons.length}
-            next={() => fetchMoreData()}
-            hasMore={hasMore}
-            loader={<></>}
-            endMessage={
-                <p style={{ textAlign: "center" }}>
-                    <b>Yay! You have seen it all</b>
-                </p>
-            }
-        >
-            <Container style={{ marginTop: "80px" }}>
-                {pokemonsTwoColumns.map((datarow: any, indexRow: number) => (
-                    <div key={indexRow}>
+        <>
+            <ToastContainer />
+            <InfiniteScroll
+                dataLength={pokemons.length}
+                next={() => fetchMoreData()}
+                hasMore={hasMore}
+                loader={<></>}
+                endMessage={
+                    <p style={{ textAlign: "center" }}>
+                        <b>Yay! You have seen it all</b>
+                    </p>
+                }
+            >
+                <Container style={showSpinner ? { marginTop: "40px", marginBottom: "60px" } : { marginTop: "40px" }}>
+                    <div>
                         <Row style={{ placeContent: "center" }}>
-                            {datarow.rows.map((pokemon: PokemonInteface, indexPokemon: number) => (
+                            {pokemons.map((pokemon: PokemonInteface, indexPokemon: number) => (
                                 <div key={indexPokemon}>
-                                    <Col sm={2} style={{ padding: "5px" }} onClick={() => openModal(indexRow, indexPokemon)}>
+                                    <Col sm={2} style={{ padding: "5px" }} onClick={() => openModal(pokemon)}>
                                         <PokemonType pokemon={pokemon} />
                                     </Col>
                                 </div>
                             ))}
                         </Row>
                     </div>
-                ))}
 
-                {showSpinner && (
-                    <div style={{ textAlign: "center" }}>
-                        <Loader type="ThreeDots" color="#2BAD60" height="100" width="100" />
-                    </div>
-                )}
+                    {showSpinner && (
+                        <div style={{ textAlign: "center" }}>
+                            <Loader type="ThreeDots" color="#2BAD60" height="100" width="100" />
+                        </div>
+                    )}
 
-                {modalShow && <PokemonDetailModal pokemon={selectedPokemon} show={modalShow} onHide={() => setModalShow(false)} />}
-            </Container>
-        </InfiniteScroll>
+                    {modalShow && (
+                        <PokemonProvider value={{ hideModal }}>
+                            <PokemonDetailModal pokemon={selectedPokemon} show={modalShow} onHide={() => setModalShow(false)} />
+                        </PokemonProvider>
+                    )}
+                </Container>
+            </InfiniteScroll>
+        </>
     );
 };
 

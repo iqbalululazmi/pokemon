@@ -30,7 +30,7 @@ const Pokedex = () => {
         const pokedex = JSON.parse(strPokedex);
         return (
             <>
-            <Container>
+            <Container style={{marginTop: "40px"}}>
                 <ListGroup>
                     {pokedex.map((poke: any, index: number) => (
                         <ListGroup.Item key={index} style={{ textTransform: "capitalize" }}>
