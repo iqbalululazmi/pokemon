@@ -6,8 +6,8 @@ import { QUERY_POKEMON_DETAIL } from "../../../adapters/queries/pokemon.query";
 import { PokemonDetailInteface } from "../../../interfaces/pokemon.interface";
 import "./PokemonDetailModal.scss";
 import { ToastContainer } from "react-toastify";
-import { randomNameGenerator } from "../../../common/generator";
 import { toastTemplate } from "../../../common/toast";
+import { CatchForm } from "../PokemonForm";
 
 const PokemonDetailContext = React.createContext<any>({});
 export const PokemonDetailProvider = PokemonDetailContext.Provider;
@@ -30,8 +30,6 @@ function PokemonDetailCard(props: any) {
         );
 
     if (error) return <p>Error :(</p>;
-
-    console.log(data);
 
     if (Object.keys(data.pokemon).length > 0) {
         useDetailContext.getFromChild(data.pokemon);
@@ -141,28 +139,21 @@ function PokemonDetailCard(props: any) {
 
 const PokemonDetailModal = (props: PokemonDetailInteface) => {
     const [pokemonDetail, setPokemonDetail] = React.useState<any>({});
+    const [showForm, setShowForm] = React.useState<boolean>(false);
     const caughtFailure = () => toastTemplate({ message: "Oh no 😭, pokemon failed to catch", type: "error" });
-    const caughtSuccess = () => toastTemplate({ message: "Gotcha 😎, the pokemon has been registered in the Pokédex", type: "success" });
+    const caughtSuccess = () => toastTemplate({ message: "Gotcha 😎, the pokemon will be register in the Pokédex", type: "success" });
     const pokemon = props.pokemon;
 
     const getFromChild = (value: any) => {
         setPokemonDetail(value);
     };
 
+
     const caught = () => {
         const chance = Math.random() * 100;
         if (chance <= 50) {
-            const nickname = pokemonDetail.name + "-" + randomNameGenerator();
-            const pokedexStorage = localStorage.getItem("pokedex");
-            let pokedex: any = [];
-            if (pokedexStorage === null) {
-                pokedex = [{ ...pokemonDetail, nickname, image: props.pokemon.image }];
-            } else {
-                pokedex = JSON.parse(pokedexStorage);
-                pokedex = [...pokedex, { ...pokemonDetail, nickname, image: props.pokemon.image }];
-            }
-            localStorage.setItem("pokedex", JSON.stringify(pokedex));
             caughtSuccess();
+            setShowForm(true);
         } else {
             caughtFailure();
         }
@@ -177,20 +168,29 @@ const PokemonDetailModal = (props: PokemonDetailInteface) => {
     return (
         <>
             <ToastContainer />
-            <Modal className="poke-modal-detail" {...props} size="lg" aria-labelledby="contained-modal-title-vcenter">
+            <Modal backdrop="static" className="poke-modal-detail" {...props} size="lg" aria-labelledby="contained-modal-title-vcenter">
                 <Modal.Header closeButton>
                     <Modal.Title id="contained-modal-title-vcenter">{props.pokemon.name}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <PokemonDetailProvider value={{ pokemon, getFromChild }}>
-                        <PokemonDetailCard pokemon={props.pokemon} />
-                    </PokemonDetailProvider>
+                    {showForm ? (
+                        <div>
+                            <CatchForm pokemon={pokemon}/>
+                        </div>
+                    ) : (
+                        <PokemonDetailProvider value={{ pokemon, getFromChild }}>
+                            <PokemonDetailCard pokemon={{...props.pokemon, ...pokemonDetail}} />
+                        </PokemonDetailProvider>
+                    )}
                 </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="primary" block onClick={() => caught()}>
-                        Caught
-                    </Button>
-                </Modal.Footer>
+
+                {!showForm && (
+                    <Modal.Footer>
+                        <Button variant="primary" block onClick={() => caught()}>
+                            Caught
+                        </Button>
+                    </Modal.Footer>
+                )}
             </Modal>
         </>
     );

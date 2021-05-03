@@ -2,6 +2,7 @@ import { useQuery } from "@apollo/client";
 import { Container, Row, Card } from "react-bootstrap";
 import { QUERY_POKEMON_TYPE } from "../../../adapters/queries/pokemon.query";
 import { PokemonTypeInterface } from "../../../interfaces/pokemon.interface";
+import Skeleton from 'react-loading-skeleton';
 
 const PokemonType = (props: PokemonTypeInterface) => {
     const { loading, error, data } = useQuery(QUERY_POKEMON_TYPE, {
@@ -10,7 +11,14 @@ const PokemonType = (props: PokemonTypeInterface) => {
         },
     });
 
-    if (loading) return <p>Loading...</p>;
+    if (loading)
+        return (
+            <Card className="pokemon-card">
+                <Card.Body style={{}}>
+                    <Skeleton count={5}/>
+                </Card.Body>
+            </Card>
+        );
     if (error) return <p>Error :(</p>;
 
     const cardColor = () => {
