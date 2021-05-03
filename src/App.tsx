@@ -5,7 +5,7 @@ import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import Pokedex from "./pages/Pokedex/Pokedex";
 import Navigation from "./components/navigations/navigation";
 import Pokemon from "./pages/Pokemon/Pokemon";
-import PokemonDetail from "./pages/Pokemon/PokemonDetailModal/PokemonDetail";
+import PokemonDetail from "./pages/Pokemon/PokemonDetailModal/PokemonDetailModal";
 
 function App() {
     return (

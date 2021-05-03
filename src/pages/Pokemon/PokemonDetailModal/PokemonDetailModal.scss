@@ -1,12 +1,18 @@
 .poke-modal-detail {
     .modal-dialog {
-        display: flex;
-        min-height: calc(90% - 10%) !important;
-        bottom: 0 !important;
-        position: absolute !important;
-        margin: unset !important;
-        border-radius: 200px !important;
-        width: 100% !important;
+        @media(max-width: 540px) {
+            display: flex;
+            min-height: calc(90% - 10%) !important;
+            bottom: 0 !important;
+            position: absolute !important;
+            margin: unset !important;
+            border-radius: 200px !important;
+            width: 100% !important;
+        }
+
+        @media(min-width: 541px) {
+            margin-top: 95px !important;
+        }
 
         .modal-content {
             border-top-left-radius: 35px !important;
