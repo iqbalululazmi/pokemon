@@ -59,6 +59,7 @@ const PokemonDetailModal = (props: PokemonDetailInteface) => {
                 <Modal.Header closeButton>
                     <Modal.Title id="contained-modal-title-vcenter">{props.pokemon.name}</Modal.Title>
                 </Modal.Header>
+                <img className="poke-detail-img" src={props.pokemon.image} alt="" />
                 <Modal.Body>
                     {showForm ? (
                         <div>

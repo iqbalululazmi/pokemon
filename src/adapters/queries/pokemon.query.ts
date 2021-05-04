@@ -57,6 +57,20 @@ export const QUERY_POKEMON_DETAIL = gql`
                     }
                 }
             }
+            moves {
+                move {
+                    name
+                }
+                version_group_details {
+                    version_group {
+                        name
+                    }
+                    level_learned_at
+                    move_learn_method {
+                        name
+                    }
+                }
+            }
             order
             species {
                 name

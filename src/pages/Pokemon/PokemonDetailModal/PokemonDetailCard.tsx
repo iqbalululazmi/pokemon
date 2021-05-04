@@ -4,6 +4,7 @@ import { useQuery } from "@apollo/client";
 import React from "react";
 import Loader from "react-loader-spinner";
 import { PokemonDetailContext } from "../../../contexts/pokemon.context";
+import "./PokemonDetailModal.scss";
 
 const PokemonDetailCard = (props: any) => {
     const [key, setKey] = React.useState<null | string>("about");
@@ -29,11 +30,10 @@ const PokemonDetailCard = (props: any) => {
     }
 
     const { pokemon } = data;
-    const { abilities, sprites, stats } = pokemon;
+    const { abilities, sprites, stats, moves } = pokemon;
 
     return (
         <>
-            <img className="poke-detail-img" src={props.pokemon.image} alt="" />
             <Tabs className="poke-detail-tab" activeKey={key} onSelect={(k) => setKey(k)}>
                 <Tab eventKey="about" title="About">
                     <Card className="poke-detail-card">
@@ -64,26 +64,6 @@ const PokemonDetailCard = (props: any) => {
                             </>
                         </Card.Body>
                     </Card>
-                </Tab>
-                <Tab eventKey="stat" title="Base Stat">
-                    <Card className="poke-detail-card">
-                        <Card.Body>
-                            <>
-                                {stats?.map((stat: any, index: number) => (
-                                    <Row key={index}>
-                                        <Col sm={6} md={6} xs={5}>
-                                            <h6 style={{ textTransform: "capitalize" }}>{stat?.stat.name}</h6>
-                                        </Col>
-                                        <Col>
-                                            <h6>: {stat?.base_stat}</h6>
-                                        </Col>
-                                    </Row>
-                                ))}
-                            </>
-                        </Card.Body>
-                    </Card>
-                </Tab>
-                <Tab eventKey="sprite" title="Sprite">
                     <Card className="poke-detail-card">
                         <Card.Body className="poke-sprite">
                             <>
@@ -121,6 +101,75 @@ const PokemonDetailCard = (props: any) => {
                                         </Row>
                                     </>
                                 )}
+                            </>
+                        </Card.Body>
+                    </Card>
+                </Tab>
+                <Tab eventKey="stat" title="Base Stat">
+                    <Card className="poke-detail-card">
+                        <Card.Body>
+                            <>
+                                {stats?.map((stat: any, index: number) => (
+                                    <Row key={index}>
+                                        <Col sm={6} md={6} xs={5}>
+                                            <h6>{stat?.stat.name}</h6>
+                                        </Col>
+                                        <Col>
+                                            <h6>: {stat?.base_stat}</h6>
+                                        </Col>
+                                    </Row>
+                                ))}
+                            </>
+                        </Card.Body>
+                    </Card>
+                </Tab>
+                <Tab eventKey="moves" title="Moves">
+                    <Card className="poke-detail-card">
+                        <Card.Body>
+                            <>
+                                {moves?.map((move: any, index: number) => (
+                                    <Row key={index} style={{ marginBottom: "30px", borderBottom: "1px solid lightgrey" }}>
+                                        <Col xs={4}>
+                                            <h6>Move Name</h6>
+                                        </Col>
+                                        <Col xs={6}>
+                                            <h6 style={{ color: "#28a745" }}>: {move?.move.name}</h6>
+                                        </Col>
+                                        <Col xs={12}>
+                                            <Row style={{ marginBottom: "10px", borderBottom: "1px solid lightgrey" }}>
+                                                <Col xs={4}>
+                                                    <h6>Group</h6>
+                                                </Col>
+                                                <Col xs={4}>
+                                                    <h6>Method</h6>
+                                                </Col>
+                                                <Col xs={4}>
+                                                    <h6>Start Level</h6>
+                                                </Col>
+                                            </Row>
+                                            {move.version_group_details.map((detail: any, indexMove: number) => (
+                                                <Row key={indexMove}>
+                                                    <Col xs={4}>
+                                                        <h6>{detail?.version_group.name}</h6>
+                                                    </Col>
+                                                    <Col xs={4}>
+                                                        <h6>{detail?.move_learn_method.name}</h6>
+                                                    </Col>
+                                                    <Col xs={4}>
+                                                        <h6>{detail?.level_learned_at}</h6>
+                                                    </Col>
+                                                </Row>
+                                            ))}
+                                        </Col>
+
+                                        {/* <Col xs={4}>
+                                            <h6>{move?.version_group_details.version_group.name}</h6>
+                                        </Col>
+                                        <Col xs={4}>
+                                            <h6>{move?.move.name}</h6>
+                                        </Col> */}
+                                    </Row>
+                                ))}
                             </>
                         </Card.Body>
                     </Card>
