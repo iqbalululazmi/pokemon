@@ -1,4 +1,10 @@
 .poke-modal-detail {
+    
+    @media (min-width: 541px) {
+        overflow: unset !important;
+    }
+
+
     .modal-dialog {
         @media (max-width: 540px) {
             display: flex;
@@ -13,6 +19,11 @@
 
         @media (min-width: 541px) {
             margin-top: 95px !important;
+
+            .modal-content {
+                height: 80vh;
+                overflow-y: auto;
+            }
         }
 
         .modal-content {
@@ -31,13 +42,22 @@
 }
 
 .poke-detail-img {
-    width: 160px;
-    height: 160px;
     position: absolute;
-    top: -110px;
     margin: auto;
-    left: 0;
-    right: 0;
+    @media (max-width: 540px) {
+        top: -110px;
+        width: 160px;
+        height: 160px;
+        left: 0;
+        right: 0;
+    }
+    @media (min-width: 541px) {
+        right: 45px;
+        width: 80px;
+        height: 80px;
+        top: -5px;
+        z-index: 1;
+    }
 }
 
 .poke-detail-tab {

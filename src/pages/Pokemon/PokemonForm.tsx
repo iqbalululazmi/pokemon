@@ -40,7 +40,6 @@ export const CatchForm = (props: any) => {
 
     return (
         <Container>
-            <img className="poke-detail-img" src={props.pokemon.image} alt="" />
             <div>
                 <label>Nickname</label>
                 <input
