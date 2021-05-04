@@ -1,8 +1,9 @@
 .poke-modal-detail {
     .modal-dialog {
-        @media(max-width: 540px) {
+        @media (max-width: 540px) {
             display: flex;
             min-height: calc(90% - 10%) !important;
+            max-height: calc(90% - 20%) !important;
             bottom: 0 !important;
             position: absolute !important;
             margin: unset !important;
@@ -10,7 +11,7 @@
             width: 100% !important;
         }
 
-        @media(min-width: 541px) {
+        @media (min-width: 541px) {
             margin-top: 95px !important;
         }
 
@@ -21,6 +22,10 @@
             .modal-header {
                 text-transform: capitalize;
             }
+
+            .modal-body {
+                overflow-y: auto;
+            }
         }
     }
 }
@@ -29,7 +34,7 @@
     width: 160px;
     height: 160px;
     position: absolute;
-    top: -180px;
+    top: -110px;
     margin: auto;
     left: 0;
     right: 0;
@@ -43,6 +48,10 @@
 .poke-detail-card {
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     margin-top: 20px;
+
+    h6 {
+        text-transform: capitalize;
+    }
 }
 
 .poke-sprite {
