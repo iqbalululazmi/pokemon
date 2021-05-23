@@ -1,4 +1,4 @@
 export interface PaginationInterface {
-    limit: number;
-    offset: number;
+  limit: number
+  offset: number
 }
