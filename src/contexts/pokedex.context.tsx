@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 
-export const PokedexContext = React.createContext<any>({});
-export const PokedexProvider = PokedexContext.Provider;
+export const PokedexContext = React.createContext<any>({})
+export const PokedexProvider = PokedexContext.Provider
